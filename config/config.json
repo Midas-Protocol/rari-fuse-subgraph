@@ -1,0 +1,8 @@
+[
+  {
+    "subgraphName": "midas-protocol/midas-fuse-v1",
+    "network": "chapel",
+    "address": "0x7bF9cC34CF32c40D438F9b21a1D651cdf16b9e58",
+    "startBlock": 16319589
+  }
+]
