@@ -25,6 +25,8 @@ dataSources:
           file: ./abis/AccessControlledAggregator.json
         - name: PriceOracle
           file: ./abis/Oracles/PriceOracle.json
+        - name: ChainLinkPriceOracle
+          file: ./abis/Oracles/ChainLinkPriceOracle.json  
         - name: EthBalance
           file: ./abis/EthBalance.json
       eventHandlers:
@@ -34,7 +36,7 @@ dataSources:
 templates:
   - name: Comptroller
     kind: ethereum/contract
-    network: {{network}}
+    network: mainnet
     source:
       abi: Comptroller
     mapping:
@@ -53,18 +55,24 @@ templates:
           file: ./abis/ERC20.json
         - name: PriceOracle
           file: ./abis/Oracles/PriceOracle.json
+        - name: ChainLinkPriceOracle
+          file: ./abis/Oracles/ChainLinkPriceOracle.json
         - name: AccessControlledAggregator
           file: ./abis/AccessControlledAggregator.json
         - name: EthBalance
           file: ./abis/EthBalance.json
+        - name: ChainLinkPriceOracle
+          file: ./abis/Oracles/ChainLinkPriceOracle.json
       eventHandlers:
         - event: MarketListed(address)
           handler: handleMarketListed
         - event: NewPriceOracle(address,address)
           handler: handleNewPriceOracle
+        - event: NewCollateralFactor(address,uint256,uint256)
+          handler: handleNewCollateralFactor
   - name: CToken
     kind: ethereum/contract
-    network: {{network}}
+    network: mainnet
     source:
       abi: CToken
     mapping:
@@ -81,6 +89,8 @@ templates:
           file: ./abis/CToken.json
         - name: PriceOracle
           file: ./abis/Oracles/PriceOracle.json
+        - name: ChainLinkPriceOracle
+          file: ./abis/Oracles/ChainLinkPriceOracle.json
         - name: ERC20
           file: ./abis/ERC20.json
         - name: AccessControlledAggregator
@@ -93,8 +103,6 @@ templates:
         - event: NewAdminFee(uint256,uint256)
           handler: handleNewAdminFee
         - event: Borrow(address,uint256,uint256,uint256)
-          handler: handleBorrow
-        - event: RepayBorrow(address,address,uint256,uint256,uint256)
           handler: handleBorrow
         - event: NewComptroller(address,address)
           handler: handleNewComptroller 
