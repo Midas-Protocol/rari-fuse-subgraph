@@ -4,18 +4,17 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: FusePoolDirectory
-    network: mainnet
+    network: chapel
     source:
-      address: "0x835482FE0532f169024d5E9410199369aAD5C77E"
+      address: "0x7bF9cC34CF32c40D438F9b21a1D651cdf16b9e58"
       abi: FusePoolDirectory
-      startBlock: 12060007
+      startBlock: 16319589
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-          # - FusePoolDirectory
-          - Pool # Add `FusePool` entity to `./schema.graphql`
+        - Pool
       abis:
         - name: FusePoolDirectory
           file: ./abis/Fuse/FusePoolDirectory.json
@@ -25,8 +24,6 @@ dataSources:
           file: ./abis/AccessControlledAggregator.json
         - name: PriceOracle
           file: ./abis/Oracles/PriceOracle.json
-        - name: ChainLinkPriceOracle
-          file: ./abis/Oracles/ChainLinkPriceOracle.json  
         - name: EthBalance
           file: ./abis/EthBalance.json
       eventHandlers:
@@ -36,7 +33,7 @@ dataSources:
 templates:
   - name: Comptroller
     kind: ethereum/contract
-    network: mainnet
+    network: chapel
     source:
       abi: Comptroller
     mapping:
@@ -55,24 +52,18 @@ templates:
           file: ./abis/ERC20.json
         - name: PriceOracle
           file: ./abis/Oracles/PriceOracle.json
-        - name: ChainLinkPriceOracle
-          file: ./abis/Oracles/ChainLinkPriceOracle.json
         - name: AccessControlledAggregator
           file: ./abis/AccessControlledAggregator.json
         - name: EthBalance
           file: ./abis/EthBalance.json
-        - name: ChainLinkPriceOracle
-          file: ./abis/Oracles/ChainLinkPriceOracle.json
       eventHandlers:
         - event: MarketListed(address)
           handler: handleMarketListed
         - event: NewPriceOracle(address,address)
           handler: handleNewPriceOracle
-        - event: NewCollateralFactor(address,uint256,uint256)
-          handler: handleNewCollateralFactor
   - name: CToken
     kind: ethereum/contract
-    network: mainnet
+    network: chapel
     source:
       abi: CToken
     mapping:
@@ -89,8 +80,6 @@ templates:
           file: ./abis/CToken.json
         - name: PriceOracle
           file: ./abis/Oracles/PriceOracle.json
-        - name: ChainLinkPriceOracle
-          file: ./abis/Oracles/ChainLinkPriceOracle.json
         - name: ERC20
           file: ./abis/ERC20.json
         - name: AccessControlledAggregator
@@ -104,8 +93,10 @@ templates:
           handler: handleNewAdminFee
         - event: Borrow(address,uint256,uint256,uint256)
           handler: handleBorrow
+        - event: RepayBorrow(address,address,uint256,uint256,uint256)
+          handler: handleBorrow
         - event: NewComptroller(address,address)
-          handler: handleNewComptroller 
+          handler: handleNewComptroller
         - event: Mint(address,uint256,uint256)
           handler: handleMint
         - event: LiquidateBorrow(address,address,uint256,address,uint256)
